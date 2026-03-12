@@ -1,0 +1,110 @@
+<div class="resumen-box">
+    <span style="font-size: 0.7em; color: #64748b; font-weight: bold; text-transform: uppercase;">Formato:</span>
+    <span style="font-size: 0.9em; font-weight: bold; display: block;">GESTIÓN COMPRAS BIENES O SERVICIOS</span>
+</div>
+
+<h2>Paso 2: Confirmación de Área</h2>
+
+<form hx-post="/solicitud/paso3/" hx-target=".card">
+    {% csrf_token %}
+    
+    <div style="text-align: left; margin-bottom: 15px;">
+        <label style="font-weight: bold; display: block; margin-bottom: 8px;">Seleccione el Área:</label>
+        <select name="area" id="area-select" required style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #cbd5e1;">
+            <option value="">-- Elija un área --</option>
+            {% for area_nombre, datos in areas_data.items %}
+                <option value="{{ area_nombre }}">{{ area_nombre }}</option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <div style="text-align: left; background-color: #f8fafc; padding: 15px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #e2e8f0;">
+        <p style="margin: 5px 0;"><strong>Líder:</strong> <span id="lider-texto" style="color: #0369a1;">Esperando selección...</span></p>
+        <p style="margin: 5px 0;"><strong>Cargo:</strong> <span id="cargo-texto" style="color: #0369a1;">Esperando selección...</span></p>
+    </div>
+
+    <input type="hidden" name="lider" id="lider-input" required>
+    <input type="hidden" name="cargo" id="cargo-input" required>
+
+    <div style="text-align: left; margin-bottom: 25px;">
+        <label style="font-weight: bold; display: block; margin-bottom: 8px;">Seleccione el Proyecto o CC (Localización):</label>
+        <input list="centros-list" 
+               name="localizacion" 
+               id="cc-input" 
+               placeholder="Escriba para buscar (Ej: Oficina, Obra...)" 
+               style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #cbd5e1;"
+               required>
+        
+        <datalist id="centros-list">
+            <option value="ACUEDUCTO VISTA HERMOSA">
+            <option value="CLUB LLANEROS">
+            <option value="COVICOL OFICINA ESPERANZA">
+            <option value="COVICOL OFICINA MOLINO">
+            <option value="COVICOL OFICINA PRIMAVERA">
+            <option value="FINCA LA SARITA">
+            <option value="IE RUBIALES">
+            <option value="IMAGENES DIAGNOSTICAS HDG">
+            <option value="IMÁGENES VITAL HDV">
+            <option value="MANTENIMIENTO BIOMEDICO">
+            <option value="MANTENIMIENTO HOSPITALARIO HDV">
+            <option value="OBRA CLINICA VITAL GRANADA">
+            <option value="OBRA UNILLANOS">
+            <option value="OBRA LLANEROS">
+            <option value="OBRA PRIMAVERA">
+            <option value="OFICINA COVICOL HDG">
+            <option value="PARQUES VILLAVICENCIO">
+            <option value="PTAP">
+            <option value="SUB ESTACION ELECTRICA">
+            <option value="ADECUACIONES HDG">
+        </datalist>
+    </div>
+
+    <div style="display: flex; gap: 10px;">
+        <button type="button" 
+                hx-get="/solicitud/" 
+                hx-target="body" 
+                style="flex: 1; background: #eee; border: none; padding: 12px; border-radius: 8px; cursor: pointer; font-weight: bold; color: #64748b;">
+            ⬅️ Volver
+        </button>
+        
+        <button type="submit" 
+                class="btn-next" 
+                style="flex: 2; margin: 0;"> Confirmar y Continuar ➡️
+        </button>
+    </div>
+</form>
+
+{{ areas_data|json_script:"areas-data" }}
+
+<script>
+    // Este script se asegura de funcionar bien incluso cuando HTMX recarga el fragmento
+    (function() {
+        const areasData = JSON.parse(document.getElementById('areas-data').textContent);
+        const areaSelect = document.getElementById('area-select');
+        
+        const liderTexto = document.getElementById('lider-texto');
+        const cargoTexto = document.getElementById('cargo-texto');
+        const liderInput = document.getElementById('lider-input');
+        const cargoInput = document.getElementById('cargo-input');
+
+        areaSelect.addEventListener('change', function() {
+            const areaElegida = this.value; // Ej: "SISTEMAS"
+            
+            if (areaElegida && areasData[areaElegida]) {
+                // Actualiza lo que el usuario ve
+                liderTexto.textContent = areasData[areaElegida].lider;
+                cargoTexto.textContent = areasData[areaElegida].cargo;
+                
+                // Actualiza lo que se envía al servidor
+                liderInput.value = areasData[areaElegida].lider;
+                cargoInput.value = areasData[areaElegida].cargo;
+            } else {
+                // Si el usuario vuelve a la opción vacía, limpiamos
+                liderTexto.textContent = "Esperando selección...";
+                cargoTexto.textContent = "Esperando selección...";
+                liderInput.value = "";
+                cargoInput.value = "";
+            }
+        });
+    })();
+</script>

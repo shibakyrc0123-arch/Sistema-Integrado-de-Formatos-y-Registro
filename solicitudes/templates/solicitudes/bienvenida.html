@@ -1,0 +1,49 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acceso - Covicol S.A.S.</title>
+    <link rel="stylesheet" href="{% static 'solicitudes/css/estilos.css' %}">
+</head>
+
+<body style="zoom: 0.9; -moz-transform: scale(0.5); -moz-transform-origin: top center; background-color: #f5f5f0; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0;">
+
+    <div class="card">
+        <h2 style="font-size: 1.4em; margin-bottom: 5px;">Sistema Integral de Formatos y Registros</h2>
+        <h3 style="color: #64748b; font-size: 1.1em; margin-top: 0; margin-bottom: 25px;">Covicol S.A.S.</h3>
+
+        {% if error %}
+            <div style="background-color: #fee2e2; color: #991b1b; padding: 10px; border-radius: 8px; margin-bottom: 15px; font-size: 0.9em;">
+                ❌ {{ error }}
+            </div>
+        {% endif %}
+
+        <form id="login-form" action="{% url 'login_sistema' %}" method="POST">
+            {% csrf_token %}
+            <div style="text-align: left; margin-bottom: 15px;">
+                <label style="font-weight: bold; font-size: 0.9em; color: var(--pizarra);">👤 Usuario:</label>
+                <input type="text" name="username" placeholder="Ingresa tu usuario" required>
+            </div>
+            <div style="text-align: left; margin-bottom: 25px;">
+                <label style="font-weight: bold; font-size: 0.9em; color: var(--pizarra);">🔑 Contraseña:</label>
+                <input type="password" name="password" placeholder="••••••••" required>
+            </div>
+            <button type="submit" id="btn-login" class="btn-next" style="width: 100%;">
+                Ingresar al Sistema
+            </button>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('login-form').addEventListener('submit', function() { 
+            var btn = document.getElementById('btn-login'); 
+            btn.disabled = true; 
+            btn.innerText = "Iniciando (Espera unos segundos)..."; 
+            btn.style.backgroundColor = "#94a3b8"; 
+            btn.style.cursor = "wait"; 
+        });
+    </script>
+</body>
+</html>

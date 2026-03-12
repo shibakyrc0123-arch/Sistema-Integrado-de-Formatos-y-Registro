@@ -1,0 +1,23 @@
+# --- Python y Django ---
+__pycache__/
+*.py[cod]
+*.log
+db.sqlite3
+
+# --- Logs del Sistema Covicol ---
+logs_covicol/
+
+# --- Archivos de Datos (Excel que el bot modifica) ---
+# Bloqueamos los Excel para evitar conflictos de versión cada vez que el bot escribe
+*.xlsx
+*.xls
+
+# --- Entornos Virtuales y Configuración IDE ---
+venv/
+env/
+.vscode/
+.idea/
+
+# --- Sistema Operativo ---
+Thumbs.db
+Desktop.ini

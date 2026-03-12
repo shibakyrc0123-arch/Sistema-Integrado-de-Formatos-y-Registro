@@ -1,0 +1,35 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solicitud de Compras - Covicol</title>
+    <link rel="stylesheet" href="{% static 'solicitudes/css/estilos.css' %}">
+    <script src="https://unpkg.com/htmx.org@1.9.10"></script>
+</head>
+
+<body style="zoom: 0.9; -moz-transform: scale(0.5); -moz-transform-origin: top center; background-color: #f5f5f0; margin: 0; display: flex; justify-content: center; align-items: center; min-height: 100vh;">
+
+    <div class="card">
+        
+        {% block content %} 
+            <h2>Selección de formato</h2>
+            <p>Por favor elige el tipo de solicitud que deseas realizar.</p>
+            
+            <form hx-post="/solicitud/paso2/" hx-target=".card">
+                {% csrf_token %}
+                <select name="formato" required>
+                    <option value="" disabled selected>Escriba palabras clave...</option>
+                    <option value="compras">Gestión compras solicitud bienes o servicios</option>
+                </select>
+
+                <button type="submit" class="btn-next">
+                    Comenzar Solicitud
+                </button>
+            </form>
+        {% endblock %}
+    </div>
+
+</body>
+</html>

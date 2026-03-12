@@ -1,0 +1,20 @@
+<h2 style="color: #3a5693;">¿Cuántos necesitas?</h2>
+<p>Seleccionado: <strong style="text-transform: uppercase;">{{ item.descripcion }}</strong></p>
+
+<div style="text-align: left; margin-top: 15px;">
+    <label style="font-weight: bold; display: block; margin-bottom: 5px;">Cantidad:</label>
+    <input type="number" name="cantidad_final" value="1" min="1" 
+           style="width: 100%; padding: 12px; border: 2px solid #3a5693; border-radius: 8px; font-size: 1.2em;">
+
+    <label style="font-weight: bold; display: block; margin-top: 15px; margin-bottom: 5px;">Unidad:</label>
+    <select name="unidad_final" style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px;">
+        {% for sigla, nombre in unidades %}
+            <option value="{{ sigla }}" {% if item.unidad_medida == sigla %}selected{% endif %}>{{ nombre }}</option>
+        {% endfor %}
+    </select>
+</div>
+
+<button type="button" class="btn-next" style="margin-top: 25px; background-color: #1e293b;"
+        hx-post="/solicitud/confirmar-final/" hx-target=".card">
+    Finalizar Requerimiento
+</button>

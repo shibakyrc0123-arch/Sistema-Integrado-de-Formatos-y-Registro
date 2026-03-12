@@ -1,0 +1,42 @@
+<h2 style="color: #3a5693; margin-bottom: 10px;">Paso 4: Urgencia del Caso</h2>
+<p style="color: #1e293b; margin-bottom: 25px;">Define la prioridad para el ticket en GLPI.</p>
+
+<div style="background: #f1f5f9; padding: 15px; border-radius: 10px; border-left: 4px solid #3a5693; margin-bottom: 25px; text-align: left; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+    <div style="font-size: 0.85em; color: #1e293b; line-height: 1.6;">
+        <span style="font-size: 0.75em; color: #64748b; font-weight: bold; display: block; text-transform: uppercase;">Estado de la Solicitud:</span>
+        📍 <strong>Centro:</strong> {{ resumen_centro }} <br>
+        📦 <strong>Tipo:</strong> {{ resumen_tipo }}
+    </div>
+</div>
+
+<form hx-post="/solicitud/paso5/" hx-target=".card">
+    {% csrf_token %}
+
+    <div style="text-align: left; margin-bottom: 30px;">
+        <label style="font-weight: bold; display: block; margin-bottom: 10px; color: #1e293b;">Nivel de Prioridad:</label>
+        <select name="prioridad" style="width: 100%; padding: 15px; border-radius: 8px; border: 2px solid #3a5693; background-color: white; font-size: 16px; outline: none; cursor: pointer;">
+            <option value="BAJA">🟢 Baja (No afecta la operación)</option>
+            <option value="MEDIA">🟡 Media (Necesidad programada)</option>
+            <option value="ALTA" selected>🔴 Alta (Urgente / Operación crítica)</option>
+        </select>
+    </div>
+
+    <div style="background-color: #fef9c3; padding: 15px; border-radius: 8px; border-left: 5px solid #ca8a04; margin-bottom: 30px; text-align: left; font-size: 0.85em; color: #854d0e;">
+        <strong>💡 Nota:</strong> El siguiente paso habilitará el buscador dinámico para que selecciones tus productos uno por uno.
+    </div>
+
+    <div style="display: flex; gap: 10px;">
+        <button type="button" 
+                hx-get="/solicitud/paso3/" 
+                hx-target=".card" 
+                style="flex: 1; background: #eee; border: none; padding: 15px; border-radius: 8px; cursor: pointer; font-weight: bold; color: #1e293b;">
+            ⬅️ Volver
+        </button>
+
+        <button type="submit" 
+                class="btn-next" 
+                style="flex: 2; margin: 0; padding: 15px;">
+            Configurar Ítems ➡️
+        </button>
+    </div>
+</form>

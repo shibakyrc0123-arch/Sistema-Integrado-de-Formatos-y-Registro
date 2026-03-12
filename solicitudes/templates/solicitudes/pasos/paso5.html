@@ -1,0 +1,68 @@
+<div class="resumen-box" style="background: #f1f5f9; padding: 15px; border-radius: 10px; border-left: 5px solid #3a5693; margin-bottom: 25px; text-align: left;">
+    <div style="font-size: 0.85em; color: #1e293b; line-height: 1.6;">
+        <span style="font-size: 0.75em; color: #64748b; font-weight: bold; display: block; text-transform: uppercase; margin-bottom: 5px;">Configuración de la Solicitud:</span>
+        📍 <strong>Sede:</strong> {{ resumen_centro }} | 
+        🏢 <strong>Área:</strong> {{ resumen_area }} | 
+        📦 <strong>Tipo:</strong> {{ resumen_tipo }}
+    </div>
+</div>
+
+<h2 style="color: #3a5693;">Paso 5: Selección de Ítems</h2>
+<p style="color: #64748b; margin-bottom: 20px;">Busca y añade productos. Puedes editar las cantidades directamente en la tabla.</p>
+
+<div style="margin-bottom: 20px; text-align: left;">
+    <input type="text" 
+           name="q" 
+           placeholder="Escribe para buscar (ej: monitor, cable)..." 
+           style="width: 100%; padding: 12px; border: 2px solid #3a5693; border-radius: 8px; outline: none; box-sizing: border-box;"
+           hx-get="/solicitud/buscar-items/" 
+           hx-trigger="keyup changed delay:300ms" 
+           hx-target="#resultados-busqueda">
+</div>
+
+<div id="resultados-busqueda" style="margin-bottom: 20px; text-align: left;"></div>
+
+<hr style="margin: 25px 0; border: 0; border-top: 1px solid #ddd;">
+
+<div style="text-align: left;">
+    <h3 style="font-size: 1.1em; color: #1e293b; margin-bottom: 10px;">📋 Ítems para Requisición:</h3>
+    <div style="max-height: 250px; overflow-y: auto; border: 1px solid #cbd5e1; border-radius: 8px; background: white;">
+        <table style="width: 100%; border-collapse: collapse; font-size: 0.9em;">
+            <thead style="background: #f8fafc; position: sticky; top: 0; z-index: 10; border-bottom: 2px solid #cbd5e1;">
+                <tr style="color: #475569; text-align: left;">
+                    <th style="padding: 12px;">Descripción</th>
+                    <th style="padding: 12px; width: 80px; text-align: center;">Cant.</th>
+                    <th style="padding: 12px; width: 60px;">Und.</th>
+                    <th style="padding: 12px; width: 40px;"></th>
+                </tr>
+            </thead>
+            <tbody id="lista-apilada-tabla">
+                <tr id="mensaje-vacio">
+                    <td colspan="4" style="color: #94a3b8; font-style: italic; text-align: center; padding: 30px;">
+                        No hay productos en la lista.
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div style="display: flex; gap: 10px; margin-top: 30px;">
+    <button type="button" 
+            class="btn-back" 
+            style="flex: 1; background-color: #fee2e2; color: #991b1b; border: 1px solid #ef4444; margin: 0;"
+            hx-get="/solicitud/cancelar/" 
+            hx-target="body" 
+            hx-confirm="¿Deseas cancelar la misión? Se cerrará el navegador del robot.">
+        🛑 Cancelar
+    </button>
+
+    <button type="button" 
+            class="btn-next" 
+            style="flex: 2; margin: 0;"
+            hx-post="/solicitud/confirmar-final/" 
+            hx-target=".card"
+            hx-include="[name='nombres_items[]'], [name='cantidades[]'], [name='unidades[]']">
+        Finalizar Requerimiento 🚀
+    </button>
+</div>

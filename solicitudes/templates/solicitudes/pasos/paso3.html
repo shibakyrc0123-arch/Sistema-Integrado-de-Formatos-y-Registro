@@ -1,0 +1,58 @@
+<h2 style="color: #3a5693; margin-bottom: 10px;">Paso 3: Naturaleza del Gasto</h2>
+<p style="color: #1e293b; margin-bottom: 25px;">¿Qué tipo de requerimiento necesitas procesar hoy?</p>
+
+<div style="background: #f1f5f9; padding: 12px; border-radius: 8px; border-left: 4px solid #3a5693; margin-bottom: 25px; text-align: left; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+    <div>
+        <span style="font-size: 0.7em; color: #64748b; font-weight: bold; display: block; text-transform: uppercase;">Información Seleccionada:</span>
+        <span style="font-size: 0.9em; font-weight: bold;">
+            📍 {{ resumen_centro }} | 🏢 {{ resumen_area }}
+        </span>
+    </div>
+    <button type="button" 
+            hx-get="/solicitud/paso2/" 
+            hx-target=".card" 
+            style="background: white; border: 1px solid #3a5693; color: #3a5693; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 0.8em; font-weight: bold; transition: 0.3s;">
+        ✎ Editar
+    </button>
+</div>
+
+<form hx-post="/solicitud/paso5/" hx-target=".card" hx-push-url="true">
+    {% csrf_token %}
+    
+    <div style="display: flex; gap: 15px; margin-bottom: 30px;">
+        <label style="flex: 1; border: 2px solid #3a5693; padding: 20px; border-radius: 12px; cursor: pointer; text-align: center; background-color: #f8fafc; transition: 0.3s;" class="option-card">
+            <input type="radio" name="tipo_rq" value="BIEN" checked style="margin-bottom: 10px; transform: scale(1.3);">
+            <span style="display: block; font-weight: bold; font-size: 1.1em; color: #1e293b;">📦 BIEN</span>
+            <small style="color: #64748b; display: block; margin-top: 5px;">Equipos, papelería, repuestos.</small>
+        </label>
+
+        <label style="flex: 1; border: 2px solid #ddd; padding: 20px; border-radius: 12px; cursor: pointer; text-align: center; transition: 0.3s;" class="option-card">
+            <input type="radio" name="tipo_rq" value="SERVICIO" style="margin-bottom: 10px; transform: scale(1.3);">
+            <span style="display: block; font-weight: bold; font-size: 1.1em; color: #1e293b;">🛠️ SERVICIO</span>
+            <small style="color: #64748b; display: block; margin-top: 5px;">Mantenimiento, instalaciones.</small>
+        </label>
+    </div>
+
+    <div style="display: flex; gap: 10px;">
+        <button type="button" 
+                hx-get="/solicitud/paso2/" 
+                hx-target=".card" 
+                style="flex: 1; background-color: #eee; color: #1e293b; border: none; padding: 15px; border-radius: 10px; font-weight: bold; cursor: pointer;">
+            ⬅️ Volver
+        </button>
+
+        <button type="submit" 
+                class="btn-next" 
+                id="btn-continuar"
+                style="flex: 2; padding: 15px; background-color: #1e293b; color: white; border: none; border-radius: 10px; font-weight: bold; font-size: 1em; cursor: pointer; transition: 0.3s;">
+            Continuar a Selección de Ítems ➡️
+        </button>
+    </div>
+</form>
+
+<style>
+    .option-card:hover { border-color: #3a5693; background-color: #f1f5f9; transform: translateY(-2px); }
+    input[type="radio"]:checked + span { color: #3a5693; }
+    /* Estilo para cuando HTMX está cargando */
+    .htmx-request#btn-continuar { opacity: 0.5; cursor: wait; }
+</style>
