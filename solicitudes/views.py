@@ -157,15 +157,20 @@ def crear_y_añadir(request): # Comentario: Registra un producto nuevo.
 # 🏁 CIERRE Y CANCELACIÓN
 # =========================================================================
 
-def confirmar_final(request): # Comentario: Carga final en GLPI y Excel.
+def confirmar_final(request): 
     if request.method == 'POST':
         nombres = request.POST.getlist('nombres_items[]')
         cantidades = request.POST.getlist('cantidades[]')
         unidades = request.POST.getlist('unidades[]')
+        
+        # ⚡ NUEVO: Atrapamos las observaciones del SIFR ⚡
+        observaciones = request.POST.getlist('observaciones[]') 
+        
         titulo = request.session.get('formato')
 
         try:
-            bot_activo.carga_final_glpi(nombres, cantidades, unidades, titulo)
+            # ⚡ NUEVO: Le pasamos las observaciones al Bot ⚡
+            bot_activo.carga_final_glpi(nombres, cantidades, unidades, observaciones, titulo)
             logger.info(f"✅ ÉXITO FINAL: Caso generado.")
             return render(request, 'solicitudes/pasos/exito_final.html')
         except Exception as e:
